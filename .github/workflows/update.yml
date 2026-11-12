@@ -22,13 +22,16 @@ jobs:
         with:
           python-version: '3.12'
       - name: Hent DMI-data og lav CSV
-        run: python update.py
+        run: python update.py 
       - name: Gem opdaterede data
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
           git add jordtemperatur.csv
+
           if ! git diff --cached --quiet; then
             git commit -m 'Opdater jordtemperatur'
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
